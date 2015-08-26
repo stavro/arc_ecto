@@ -11,7 +11,7 @@ Add the latest stable release to your `mix.exs` file:
 ```elixir
 defp deps do
   [
-    {:arc_ecto, "~> 0.1.0"}
+    {:arc_ecto, "~> 0.1.1"}
   ]
 end
 ```
@@ -47,7 +47,7 @@ Arc attachments should be stored in a string column, with a name indicative of t
 create table :users do
   add :avatar, :string
 end
-``` 
+```
 
 ### Add your attachment to your Ecto Model
 
@@ -92,7 +92,7 @@ end
                     path: "/var/folders/q0/dg42x390000gp/T//plug-1434/multipart-765369-5"}
     }
   }
-  
+
   """
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Repo.get(User, id)
@@ -112,7 +112,7 @@ end
 
 ### Retrieve the serialized url
 
-Both public and signed urls will include the timestamp for cache busting, and are retrieved the exact same way as using Arc directly.  
+Both public and signed urls will include the timestamp for cache busting, and are retrieved the exact same way as using Arc directly.
 
 ```elixir
   user = Repo.get(User, 1)
