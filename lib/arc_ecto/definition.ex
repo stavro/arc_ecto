@@ -14,7 +14,7 @@ defmodule Arc.Ecto.Definition do
       def url({%{file_name: file_name, updated_at: %Ecto.DateTime{}=updated_at}, scope}, version, options) do
         stamp = :calendar.datetime_to_gregorian_seconds(Ecto.DateTime.to_erl(updated_at))
         url = super({file_name, scope}, version, options)
-        
+
         case URI.parse(url).query do
           nil -> url <> "?v=#{stamp}"
           _ -> url <> "&v=#{stamp}"
