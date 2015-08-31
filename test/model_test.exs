@@ -15,9 +15,9 @@ defmodule ArcTest.Ecto.Model do
       field :avatar, DummyDefinition.Type
     end
 
-    def changeset(user, params) do
+    def changeset(user, params \\ :empty) do
       user
-      |> cast_attachments(params, ~w(), ~w(avatar))
+      |> cast_attachments(params, ~w(avatar), ~w())
     end
   end
 
@@ -28,6 +28,13 @@ defmodule ArcTest.Ecto.Model do
     end
 
     :ok
+  end
+
+  test "supports :empty changeset" do
+    cs = TestUser.changeset(%TestUser{})
+    assert cs.valid? == false
+    assert cs.changes == %{}
+    assert cs.required == [:avatar]
   end
 
   test_with_mock "cascades storage success into a valid change", DummyDefinition, [store: fn({"/path/to/my/file.png", %TestUser{}}) -> {:ok, "file.png"} end] do

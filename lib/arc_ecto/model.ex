@@ -18,10 +18,13 @@ defmodule Arc.Ecto.Model do
         %{__meta__: schema} -> changeset_or_model
       end
 
-      # Transform value as a tuple of {value, scope}
-      arc_params = Dict.take(params, required ++ optional)
-        |> Enum.map(fn({field, file}) -> {field, {file, scope}} end)
-        |> Enum.into(%{})
+      arc_params = case params do
+        :empty -> :empty
+        %{} ->
+          Dict.take(params, required ++ optional)
+          |> Enum.map(fn({field, file}) -> {field, {file, scope}} end)
+          |> Enum.into(%{})
+      end
 
       cast(changeset_or_model, arc_params, required, optional)
     end
