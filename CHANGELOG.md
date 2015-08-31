@@ -1,4 +1,7 @@
 # Changelog
+## v0.1.2
+
+* (Bugfix) Support the `:empty` value for given params
 
 ## v0.1.1
 
