@@ -70,7 +70,7 @@ defmodule MyApp.User do
   @doc """
   Creates a changeset based on the `model` and `params`.
   """
-  def changeset(user, params \\ nil) do
+  def changeset(user, params \\ :empty) do
     model
     |> cast_attachments(params, @required_fields, @optional_fields)
   end
