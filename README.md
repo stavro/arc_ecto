@@ -61,18 +61,26 @@ defmodule MyApp.User do
   use Arc.Ecto.Model
 
   schema "users" do
+    field :name,   :string
     field :avatar, MyApp.Avatar.Type
   end
 
   @required_fields ~w()
-  @optional_fields ~w(avatar)
+  @optional_fields ~w(name)
+
+  @required_file_fields ~w()
+  @optional_file_fields ~w(avatar)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
+
+  If no params are provided, an invalid changeset is returned
+  with no validation performed.
   """
   def changeset(user, params \\ :empty) do
     model
-    |> cast_attachments(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields, @optional_fields)
+    |> cast_attachments(params, @required_file_fields, @optional_file_fields)
   end
 end
 ```
