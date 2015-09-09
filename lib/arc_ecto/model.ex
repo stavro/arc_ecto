@@ -12,10 +12,10 @@ defmodule Arc.Ecto.Model do
                         optional: optional] do
 
 
-      # If given a changeset, extract the underlying model
+      # If given a changeset, apply the changes to obtain the underlying model
       scope = case changeset_or_model do
-        %Ecto.Changeset{model: model} -> model
-        %{__meta__: schema} -> changeset_or_model
+        %Ecto.Changeset{} -> Ecto.Changeset.apply_changes(changeset_or_model)
+        %{__meta__: _} -> changeset_or_model
       end
 
       arc_params = case params do

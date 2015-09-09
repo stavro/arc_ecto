@@ -12,11 +12,13 @@ defmodule ArcTest.Ecto.Model do
     use Arc.Ecto.Model
 
     schema "users" do
+      field :first_name, :string
       field :avatar, DummyDefinition.Type
     end
 
     def changeset(user, params \\ :empty) do
       user
+      |> cast(params, ~w(), ~w(first_name))
       |> cast_attachments(params, ~w(avatar), ~w())
     end
   end
@@ -55,5 +57,10 @@ defmodule ArcTest.Ecto.Model do
   test_with_mock "converts changeset into model", DummyDefinition, [store: fn({"/path/to/my/file.png", %TestUser{}}) -> {:error, :invalid_file} end] do
     TestUser.changeset(%Ecto.Changeset{model: %TestUser{}}, %{"avatar" => "/path/to/my/file.png"})
     assert called DummyDefinition.store({"/path/to/my/file.png", %TestUser{}})
+  end
+
+  test_with_mock "applies changes to model", DummyDefinition, [store: fn({"/path/to/my/file.png", %TestUser{}}) -> {:error, :invalid_file} end] do
+    TestUser.changeset(%Ecto.Changeset{model: %TestUser{}}, %{"avatar" => "/path/to/my/file.png", "first_name" => "test"})
+    assert called DummyDefinition.store({"/path/to/my/file.png", %TestUser{first_name: "test"}})
   end
 end

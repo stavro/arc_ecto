@@ -1,4 +1,9 @@
 # Changelog
+
+## v0.2.0
+
+* (Behavior Change) `arc_ecto` will now apply all `%Ecto.Changeset{}` changes within `cast_attachments` to the root model prior to passing the model to `arc` as a scope.
+
 ## v0.1.2
 
 * (Bugfix) Support the `:empty` value for given params
