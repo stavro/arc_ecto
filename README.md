@@ -11,7 +11,7 @@ Add the latest stable release to your `mix.exs` file:
 ```elixir
 defp deps do
   [
-    {:arc_ecto, "~> 0.2.0"}
+    {:arc_ecto, "~> 0.3.1"}
   ]
 end
 ```
