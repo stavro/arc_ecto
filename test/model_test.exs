@@ -63,4 +63,9 @@ defmodule ArcTest.Ecto.Model do
     TestUser.changeset(%Ecto.Changeset{model: %TestUser{}}, %{"avatar" => "/path/to/my/file.png", "first_name" => "test"})
     assert called DummyDefinition.store({"/path/to/my/file.png", %TestUser{first_name: "test"}})
   end
+
+  test_with_mock "converts atom keys", DummyDefinition, [store: fn({"/path/to/my/file.png", %TestUser{}}) -> {:error, :invalid_file} end] do
+    TestUser.changeset(%Ecto.Changeset{model: %TestUser{}}, %{avatar: "/path/to/my/file.png"})
+    assert called DummyDefinition.store({"/path/to/my/file.png", %TestUser{}})
+  end
 end

@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.3.1
+* (Bugfix) Allow params objects with atom keys.
+
 ## v0.3.0
 * (Dependency Update) Require v0.2.0 of arc.
 

@@ -11,7 +11,6 @@ defmodule Arc.Ecto.Model do
                         required: required,
                         optional: optional] do
 
-
       # If given a changeset, apply the changes to obtain the underlying model
       scope = case changeset_or_model do
         %Ecto.Changeset{} -> Ecto.Changeset.apply_changes(changeset_or_model)
@@ -21,12 +20,29 @@ defmodule Arc.Ecto.Model do
       arc_params = case params do
         :empty -> :empty
         %{} ->
-          Dict.take(params, required ++ optional)
+          params
+          |> Arc.Ecto.Model.convert_params_to_binary
+          |> Dict.take(required ++ optional)
           |> Enum.map(fn({field, file}) -> {field, {file, scope}} end)
           |> Enum.into(%{})
       end
 
       cast(changeset_or_model, arc_params, required, optional)
     end
+  end
+
+  def convert_params_to_binary(params) do
+    Enum.reduce(params, nil, fn
+      {key, _value}, nil when is_binary(key) ->
+        nil
+
+      {key, _value}, _ when is_binary(key) ->
+        raise ArgumentError, "expected params to be a map with atoms or string keys, " <>
+                             "got a map with mixed keys: #{inspect params}"
+
+      {key, value}, acc when is_atom(key) ->
+        Map.put(acc || %{}, Atom.to_string(key), value)
+
+    end) || params
   end
 end
