@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.3.2
+* (Bugfix) Relax Arc dependency to ~> 0.2 to support 0.3.0
+
 ## v0.3.1
 * (Bugfix) Allow params objects with atom keys.
 
