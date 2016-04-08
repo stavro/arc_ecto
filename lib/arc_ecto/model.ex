@@ -16,14 +16,18 @@ defmodule Arc.Ecto.Model do
         %{__meta__: _} -> changeset_or_model
       end
 
-      arc_params = case params do
-        %{} ->
-          params
-          |> Arc.Ecto.Model.convert_params_to_binary
-          |> Dict.take(allowed)
-          |> Enum.map(fn({field, file}) -> {field, {file, scope}} end)
-          |> Enum.into(%{})
-      end
+      allowed = Enum.map(allowed, fn key ->
+        case key do
+          key when is_binary(key) -> key
+          key when is_atom(key) -> Atom.to_string(key)
+        end
+      end)
+
+      arc_params = params
+                    |> Arc.Ecto.Model.convert_params_to_binary
+                    |> Dict.take(allowed)
+                    |> Enum.map(fn({field, file}) -> {field, {file, scope}} end)
+                    |> Enum.into(%{})
 
       cast(changeset_or_model, arc_params, allowed)
     end
