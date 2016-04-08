@@ -5,11 +5,10 @@ defmodule Arc.Ecto.Model do
     end
   end
 
-  defmacro cast_attachments(changeset_or_model, params, required, optional) do
+  defmacro cast_attachments(changeset_or_model, params, allowed) do
     quote bind_quoted: [changeset_or_model: changeset_or_model,
                         params: params,
-                        required: required,
-                        optional: optional] do
+                        allowed: allowed] do
 
       # If given a changeset, apply the changes to obtain the underlying model
       scope = case changeset_or_model do
@@ -18,16 +17,15 @@ defmodule Arc.Ecto.Model do
       end
 
       arc_params = case params do
-        :empty -> :empty
         %{} ->
           params
           |> Arc.Ecto.Model.convert_params_to_binary
-          |> Dict.take(required ++ optional)
+          |> Dict.take(allowed)
           |> Enum.map(fn({field, file}) -> {field, {file, scope}} end)
           |> Enum.into(%{})
       end
 
-      cast(changeset_or_model, arc_params, required, optional)
+      cast(changeset_or_model, arc_params, allowed)
     end
   end
 
