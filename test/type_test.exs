@@ -18,4 +18,10 @@ defmodule ArcTest.Ecto.Type do
     {:ok, value} = DummyDefinition.Type.load("file.png?62167219200")
     assert value == %{file_name: "file.png", updated_at: timestamp}
   end
+
+  test "loads pathological filenames" do
+    timestamp = Ecto.DateTime.cast!({{1970, 1, 1}, {0, 0, 0}})
+    {:ok, value} = DummyDefinition.Type.load("image.php?img=file.png?62167219200")
+    assert value == %{file_name: "image.php?img=file.png", updated_at: timestamp}
+  end
 end
