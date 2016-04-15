@@ -8,13 +8,13 @@ defmodule Arc.Ecto.Type do
     end
   end
 
-  def load(definition, value) do
+  def load(_definition, value) do
     [_, file_name, gsec] = Regex.run(~r{^(.*)\?(\d+)$}, value)
     updated_at = Ecto.DateTime.from_erl(:calendar.gregorian_seconds_to_datetime(String.to_integer(gsec)))
     {:ok, %{file_name: file_name, updated_at: updated_at}}
   end
 
-  def dump(definition, %{file_name: file_name, updated_at: updated_at}) do
+  def dump(_definition, %{file_name: file_name, updated_at: updated_at}) do
     gsec = :calendar.datetime_to_gregorian_seconds(Ecto.DateTime.to_erl(updated_at))
     {:ok, "#{file_name}?#{gsec}"}
   end
