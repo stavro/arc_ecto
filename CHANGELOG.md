@@ -1,6 +1,9 @@
 # Changelog
 
-## v0.4.0
+## v0.4.1 (2016-04-25)
+* (Enhancement) Allow database columns to be loaded without a timestamp. Useful for migrations from other image upload systems or formats.
+
+## v0.4.0 (2016-04-25)
 * (Enhancement) Upgrade to Ecto 2.0rc-3
 
 Upgrade instructions from 0.3.x to 0.4.x:

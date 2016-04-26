@@ -11,13 +11,17 @@ defmodule Arc.Ecto.Definition do
         def dump(value), do: Arc.Ecto.Type.dump(unquote(definition), value)
       end
 
-      def url({%{file_name: file_name, updated_at: %Ecto.DateTime{}=updated_at}, scope}, version, options) do
-        stamp = :calendar.datetime_to_gregorian_seconds(Ecto.DateTime.to_erl(updated_at))
+      def url({%{file_name: file_name, updated_at: updated_at}, scope}, version, options) do
         url = super({file_name, scope}, version, options)
 
-        case URI.parse(url).query do
-          nil -> url <> "?v=#{stamp}"
-          _ -> url <> "&v=#{stamp}"
+        case updated_at do
+          %Ecto.DateTime{} ->
+            stamp = :calendar.datetime_to_gregorian_seconds(Ecto.DateTime.to_erl(updated_at))
+            case URI.parse(url).query do
+              nil -> url <> "?v=#{stamp}"
+              _ -> url <> "&v=#{stamp}"
+            end
+          _ -> url
         end
       end
 
