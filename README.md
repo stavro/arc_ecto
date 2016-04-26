@@ -39,7 +39,7 @@ This provides a set of functions to ease integration with Arc and Ecto.  In part
   * Definition of a custom Ecto Type responsible for storing the images.
   * Url generation with a cache-busting timestamp query parameter
 
-### Add a string column to your model
+### Add a string column to your schema
 
 Arc attachments should be stored in a string column, with a name indicative of the attachment.
 
@@ -49,16 +49,16 @@ create table :users do
 end
 ```
 
-### Add your attachment to your Ecto Model
+### Add your attachment to your Ecto Schema
 
-Add a using statement `use Arc.Ecto.Model` to the top of your ecto model, and specify the type of the column in your schema as `MyApp.Avatar.Type`.
+Add a using statement `use Arc.Ecto.Schema` to the top of your ecto schema, and specify the type of the column in your schema as `MyApp.Avatar.Type`.
 
 Attachments can subsequently be passed to Arc's storage though a Changeset `cast_attachments/4` function, following the syntax of `cast/4`
 
 ```elixir
 defmodule MyApp.User do
   use MyApp.Web, :model
-  use Arc.Ecto.Model
+  use Arc.Ecto.Schema
 
   schema "users" do
     field :name,   :string
@@ -72,13 +72,13 @@ defmodule MyApp.User do
   @optional_file_fields ~w(avatar)
 
   @doc """
-  Creates a changeset based on the `model` and `params`.
+  Creates a changeset based on the `data` and `params`.
 
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
   def changeset(user, params \\ :empty) do
-    model
+    user
     |> cast(params, @required_fields, @optional_fields)
     |> cast_attachments(params, @required_file_fields, @optional_file_fields)
   end
