@@ -1,7 +1,7 @@
-defmodule Arc.Ecto.Model do
+defmodule Arc.Ecto.Schema do
   defmacro __using__(_) do
     quote do
-      import Arc.Ecto.Model
+      import Arc.Ecto.Schema
     end
   end
 
@@ -10,7 +10,7 @@ defmodule Arc.Ecto.Model do
                         params: params,
                         allowed: allowed] do
 
-      # If given a changeset, apply the changes to obtain the underlying model
+      # If given a changeset, apply the changes to obtain the underlying data
       scope = case changeset_or_data do
         %Ecto.Changeset{} -> Ecto.Changeset.apply_changes(changeset_or_data)
         %{__meta__: _} -> changeset_or_data
@@ -29,7 +29,7 @@ defmodule Arc.Ecto.Model do
           :invalid
         %{} ->
           params
-          |> Arc.Ecto.Model.convert_params_to_binary
+          |> Arc.Ecto.Schema.convert_params_to_binary
           |> Dict.take(allowed)
           |> Enum.map(fn({field, file}) -> {field, {file, scope}} end)
           |> Enum.into(%{})

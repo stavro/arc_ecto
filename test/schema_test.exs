@@ -1,4 +1,4 @@
-defmodule ArcTest.Ecto.Model do
+defmodule ArcTest.Ecto.Schema do
   use ExUnit.Case, async: false
   import Mock
 
@@ -10,7 +10,7 @@ defmodule ArcTest.Ecto.Model do
   defmodule TestUser do
     use Ecto.Schema
     import Ecto.Changeset
-    use Arc.Ecto.Model
+    use Arc.Ecto.Schema
 
     schema "users" do
       field :first_name, :string
@@ -53,15 +53,15 @@ defmodule ArcTest.Ecto.Model do
     cs = TestUser.changeset(%TestUser{}, %{"avatar" => "/path/to/my/file.png"})
     assert called DummyDefinition.store({"/path/to/my/file.png", %TestUser{}})
     assert cs.valid? == false
-    assert cs.errors == [avatar: {"can't be blank", []}, avatar: {"is invalid", [type: ArcTest.Ecto.Model.DummyDefinition.Type]}]
+    assert cs.errors == [avatar: {"can't be blank", []}, avatar: {"is invalid", [type: ArcTest.Ecto.Schema.DummyDefinition.Type]}]
   end
 
-  test_with_mock "converts changeset into model", DummyDefinition, [store: fn({"/path/to/my/file.png", %TestUser{}}) -> {:error, :invalid_file} end] do
+  test_with_mock "converts changeset into schema", DummyDefinition, [store: fn({"/path/to/my/file.png", %TestUser{}}) -> {:error, :invalid_file} end] do
     TestUser.changeset(%Ecto.Changeset{data: %TestUser{}}, %{"avatar" => "/path/to/my/file.png"})
     assert called DummyDefinition.store({"/path/to/my/file.png", %TestUser{}})
   end
 
-  test_with_mock "applies changes to model", DummyDefinition, [store: fn({"/path/to/my/file.png", %TestUser{}}) -> {:error, :invalid_file} end] do
+  test_with_mock "applies changes to schema", DummyDefinition, [store: fn({"/path/to/my/file.png", %TestUser{}}) -> {:error, :invalid_file} end] do
     TestUser.changeset(%Ecto.Changeset{data: %TestUser{}}, %{"avatar" => "/path/to/my/file.png", "first_name" => "test"})
     assert called DummyDefinition.store({"/path/to/my/file.png", %TestUser{first_name: "test"}})
   end
