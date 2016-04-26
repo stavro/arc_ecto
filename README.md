@@ -77,7 +77,7 @@ defmodule MyApp.User do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(user, params \\ :empty) do
+  def changeset(user, params \\ :invalid) do
     user
     |> cast(params, @required_fields, @optional_fields)
     |> cast_attachments(params, @required_file_fields, @optional_file_fields)
