@@ -1,5 +1,5 @@
 defmodule Arc.Ecto.Definition do
-  defmacro __using__(options) do
+  defmacro __using__(_options) do
     definition = __CALLER__.module
 
     quote do
