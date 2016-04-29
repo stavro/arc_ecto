@@ -53,7 +53,7 @@ end
 
 Add a using statement `use Arc.Ecto.Schema` to the top of your ecto schema, and specify the type of the column in your schema as `MyApp.Avatar.Type`.
 
-Attachments can subsequently be passed to Arc's storage though a Changeset `cast_attachments/4` function, following the syntax of `cast/4`
+Attachments can subsequently be passed to Arc's storage though a Changeset `cast_attachments/3` function, following the syntax of `cast/3`
 
 ```elixir
 defmodule MyApp.User do
@@ -65,12 +65,6 @@ defmodule MyApp.User do
     field :avatar, MyApp.Avatar.Type
   end
 
-  @required_fields ~w()
-  @optional_fields ~w(name)
-
-  @required_file_fields ~w()
-  @optional_file_fields ~w(avatar)
-
   @doc """
   Creates a changeset based on the `data` and `params`.
 
@@ -79,8 +73,9 @@ defmodule MyApp.User do
   """
   def changeset(user, params \\ :invalid) do
     user
-    |> cast(params, @required_fields, @optional_fields)
-    |> cast_attachments(params, @required_file_fields, @optional_file_fields)
+    |> cast(params, [:name])
+    |> cast_attachments(params, [:avatar])
+    |> validate_required([:name, :avatar])
   end
 end
 ```
