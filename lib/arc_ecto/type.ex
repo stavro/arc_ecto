@@ -3,6 +3,10 @@ defmodule Arc.Ecto.Type do
 
   @filename_with_timestamp ~r{^(.*)\?(\d+)$}
 
+  # Support embeds_one/embeds_many
+  def cast(definition, %{"file_name" => file, "updated_at" => updated_at}) do
+    {:ok, %{file_name: file, updated_at: updated_at}}
+  end
   def cast(definition, args) do
     case definition.store(args) do
       {:ok, file} -> {:ok, %{file_name: file, updated_at: Ecto.DateTime.utc}}
