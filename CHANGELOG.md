@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.4.2 (2016-06-14)
+* (Bugfix) Don't add version timestamp to signed urls
+
 ## v0.4.1 (2016-04-25)
 * (Enhancement) Allow database columns to be loaded without a timestamp. Useful for migrations from other image upload systems or formats.
 
