@@ -1,10 +1,10 @@
-%{"arc": {:hex, :arc, "0.5.3"},
-  "decimal": {:hex, :decimal, "1.1.2"},
-  "ecto": {:hex, :ecto, "2.0.2"},
+%{"arc": {:hex, :arc, "0.5.3", "2bc1b4ce8c1064ae12015f5612f3e3853d354859905bb34088b3579bf34a519d", [:mix], [{:httpoison, "~> 0.7", [hex: :httpoison, optional: true]}, {:poison, "~> 1.2 or ~> 2.0", [hex: :poison, optional: true]}, {:ex_aws, "~> 0.4.10 or ~> 0.5.0", [hex: :ex_aws, optional: true]}]},
+  "decimal": {:hex, :decimal, "1.1.2", "79a769d4657b2d537b51ef3c02d29ab7141d2b486b516c109642d453ee08e00c", [:mix], []},
+  "ecto": {:hex, :ecto, "2.0.2", "b02331c1f20bbe944dbd33c8ecd8f1ccffecc02e344c4471a891baf3a25f5406", [:mix], [{:poison, "~> 1.5 or ~> 2.0", [hex: :poison, optional: true]}, {:sbroker, "~> 1.0-beta", [hex: :sbroker, optional: true]}, {:mariaex, "~> 0.7.7", [hex: :mariaex, optional: true]}, {:postgrex, "~> 0.11.2", [hex: :postgrex, optional: true]}, {:db_connection, "~> 1.0-rc.2", [hex: :db_connection, optional: true]}, {:decimal, "~> 1.0", [hex: :decimal, optional: false]}, {:poolboy, "~> 1.5", [hex: :poolboy, optional: false]}]},
   "erlcloud": {:hex, :erlcloud, "0.9.2"},
   "jsx": {:hex, :jsx, "2.1.1"},
   "lhttpc": {:hex, :lhttpc, "1.3.0"},
-  "meck": {:hex, :meck, "0.8.3"},
-  "mock": {:hex, :mock, "0.1.1"},
+  "meck": {:hex, :meck, "0.8.3", "4628a1334c69610c5bd558b04dc78d723d8ec5445c123856de34c77f462b5ee5", [:rebar], []},
+  "mock": {:hex, :mock, "0.1.1", "e21469ca27ba32aa7b18b61699db26f7a778171b21c0e5deb6f1218a53278574", [:mix], [{:meck, "~> 0.8.2", [hex: :meck, optional: false]}]},
   "mogrify": {:hex, :mogrify, "0.1.0"},
-  "poolboy": {:hex, :poolboy, "1.5.1"}}
+  "poolboy": {:hex, :poolboy, "1.5.1", "6b46163901cfd0a1b43d692657ed9d7e599853b3b21b95ae5ae0a777cf9b6ca8", [:rebar], []}}
