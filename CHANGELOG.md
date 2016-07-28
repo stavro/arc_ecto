@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.4.3 (2016-06-14)
+* Relax Ecto dependency to `~> 2.0`
+
 ## v0.4.2 (2016-06-14)
 * (Bugfix) Don't add version timestamp to signed urls
 
