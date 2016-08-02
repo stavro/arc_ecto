@@ -14,6 +14,10 @@ defp deps do
     {:arc_ecto, "~> 0.4.3"}
   ]
 end
+
+defp application do
+  [applications: [:arc_ecto]]
+end
 ```
 
 Then run `mix deps.get` in your shell to fetch the dependencies.
