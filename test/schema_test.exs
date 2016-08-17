@@ -10,7 +10,7 @@ defmodule ArcTest.Ecto.Schema do
   defmodule TestUser do
     use Ecto.Schema
     import Ecto.Changeset
-    use Arc.Ecto.Schema
+    import Arc.Ecto.Schema
 
     schema "users" do
       field :first_name, :string

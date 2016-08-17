@@ -62,7 +62,7 @@ Attachments can subsequently be passed to Arc's storage though a Changeset `cast
 ```elixir
 defmodule MyApp.User do
   use MyApp.Web, :model
-  use Arc.Ecto.Schema
+  import Arc.Ecto.Schema
 
   schema "users" do
     field :name,   :string
