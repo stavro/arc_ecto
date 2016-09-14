@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.4.4 (2016-06-14)
+* (Bugfix) Set column to `nil` when casting a `nil` avatar
+
 ## v0.4.3 (2016-06-14)
 * Relax Ecto dependency to `~> 2.0`
 
