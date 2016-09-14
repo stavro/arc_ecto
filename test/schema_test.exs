@@ -23,6 +23,12 @@ defmodule ArcTest.Ecto.Schema do
       |> cast_attachments(params, ~w(avatar)a)
       |> validate_required(:avatar)
     end
+
+    def changeset2(user, params \\ :invalid) do
+      user
+      |> cast(params, ~w(first_name)a)
+      |> cast_attachments(params, ~w(avatar)a)
+    end
   end
 
   setup do
@@ -68,5 +74,11 @@ defmodule ArcTest.Ecto.Schema do
   test_with_mock "converts atom keys", DummyDefinition, [store: fn({"/path/to/my/file.png", %TestUser{}}) -> {:error, :invalid_file} end] do
     TestUser.changeset(%TestUser{}, %{avatar: "/path/to/my/file.png"})
     assert called DummyDefinition.store({"/path/to/my/file.png", %TestUser{}})
+  end
+
+  test_with_mock "casting nil attachments", DummyDefinition, [store: fn({"/path/to/my/file.png", %TestUser{}}) -> {:ok, "file.png"} end] do
+    changeset = TestUser.changeset(%TestUser{}, %{"avatar" => "/path/to/my/file.png"})
+    changeset = TestUser.changeset2(changeset, %{"avatar" => nil})
+    assert nil == Ecto.Changeset.get_field(changeset, :avatar)
   end
 end

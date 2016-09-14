@@ -31,7 +31,10 @@ defmodule Arc.Ecto.Schema do
           params
           |> Arc.Ecto.Schema.convert_params_to_binary
           |> Dict.take(allowed)
-          |> Enum.map(fn({field, file}) -> {field, {file, scope}} end)
+          |> Enum.map(fn
+            {field, nil} -> {field, nil}
+            {field, file} -> {field, {file, scope}}
+          end)
           |> Enum.into(%{})
       end
 
