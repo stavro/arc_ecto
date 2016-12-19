@@ -5,10 +5,11 @@ defmodule Arc.Ecto.Schema do
     end
   end
 
-  defmacro cast_attachments(changeset_or_data, params, allowed) do
+  defmacro cast_attachments(changeset_or_data, params, allowed, options \\ []) do
     quote bind_quoted: [changeset_or_data: changeset_or_data,
                         params: params,
-                        allowed: allowed] do
+                        allowed: allowed,
+                        options: options] do
 
       # If given a changeset, apply the changes to obtain the underlying data
       scope = case changeset_or_data do
@@ -31,9 +32,20 @@ defmodule Arc.Ecto.Schema do
           params
           |> Arc.Ecto.Schema.convert_params_to_binary
           |> Dict.take(allowed)
-          |> Enum.map(fn
-            {field, nil} -> {field, nil}
-            {field, file} -> {field, {file, scope}}
+          |> Enum.reduce([], fn
+            # Don't wrap nil casts in the scope object
+            {field, nil}, fields -> [{field, nil} | fields]
+
+            # Allow casting Plug.Uploads
+            {field, upload = %{__struct__: Plug.Upload}}, fields -> [{field, {upload, scope}} | fields]
+
+            # If casting a binary (path), ensure we've explicitly allowed paths
+            {field, path}, fields when is_binary(path) ->
+              if Keyword.get(options, :allow_paths, false) do
+                [{field, {path, scope}} | fields]
+              else
+                fields
+              end
           end)
           |> Enum.into(%{})
       end
