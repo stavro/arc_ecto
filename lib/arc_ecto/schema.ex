@@ -31,7 +31,7 @@ defmodule Arc.Ecto.Schema do
         %{} ->
           params
           |> Arc.Ecto.Schema.convert_params_to_binary
-          |> Dict.take(allowed)
+          |> Map.take(allowed)
           |> Enum.reduce([], fn
             # Don't wrap nil casts in the scope object
             {field, nil}, fields -> [{field, nil} | fields]
