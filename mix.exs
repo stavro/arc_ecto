@@ -7,11 +7,11 @@ defmodule Arc.Ecto.Mixfile do
     [app: :arc_ecto,
      version: @version,
      elixir: "~> 1.0",
-     deps: deps,
+     deps: deps(),
 
     # Hex
-     description: description,
-     package: package]
+     description: description(),
+     package: package()]
   end
 
   # Configuration for the OTP application
