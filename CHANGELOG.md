@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.6.0 (2017-03-10)
+* (Dependency Update) Require `arc ~> 0.7.0`
+
+
 ## v0.5.0 (2016-12-19)
 * (Dependency Update) Require `arc ~> 0.6.0`
 * (Behavior Change) Only allow casting a `%Plug.Upload{}` by default.  If you would like to cast local paths (take caution), you may pass in `allow_paths: true`.  Note: This should be used with caution, as there are security implications with uploading local paths from a user-submitted form.
