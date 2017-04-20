@@ -1,8 +1,11 @@
 # Changelog
 
+## v0.7.0 (2017-03-10)
+* (Enhancement) Add `delete` override to the ArcEcto module.
+* (Dependency Update) Require `arc ~> 0.8.0`
+
 ## v0.6.0 (2017-03-10)
 * (Dependency Update) Require `arc ~> 0.7.0`
-
 
 ## v0.5.0 (2016-12-19)
 * (Dependency Update) Require `arc ~> 0.6.0`
