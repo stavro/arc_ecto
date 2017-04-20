@@ -30,6 +30,10 @@ defmodule Arc.Ecto.Definition do
       end
 
       def url(f, v, options), do: super(f, v, options)
+      
+      def delete({%{file_name: file_name, updated_at: _updated_at}, scope}), do: super({file_name, scope})
+
+      def delete(args), do: super(args)
     end
   end
 end
