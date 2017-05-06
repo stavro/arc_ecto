@@ -42,4 +42,10 @@ defmodule ArcTest.Ecto.Type do
     {:ok, dumped_type} = DummyDefinition.Type.dump(value)
     assert dumped_type == "file.png"
   end
+
+  test "casts embed value" do
+    {:ok, value} = DummyDefinition.Type.cast("file.png?62167219200")
+    assert value.file_name == "file.png"
+    assert value.updated_at == Ecto.DateTime.cast!({{1970, 1, 1}, {0, 0, 0}})
+  end
 end

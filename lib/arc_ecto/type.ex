@@ -7,6 +7,9 @@ defmodule Arc.Ecto.Type do
   def cast(_definition, %{"file_name" => file, "updated_at" => updated_at}) do
     {:ok, %{file_name: file, updated_at: updated_at}}
   end
+  def cast(definition, value) when is_bitstring(value) do
+    load(definition, value)
+  end
   def cast(definition, args) do
     case definition.store(args) do
       {:ok, file} -> {:ok, %{file_name: file, updated_at: Ecto.DateTime.utc}}
