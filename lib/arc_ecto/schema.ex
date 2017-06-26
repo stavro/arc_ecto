@@ -2,6 +2,26 @@ defmodule Arc.Ecto.Schema do
   defmacro __using__(_) do
     quote do
       import Arc.Ecto.Schema
+
+      def delete_attachments(changeset_or_data, fields) do
+        scope = case changeset_or_data do
+          %Ecto.Changeset{} -> Ecto.Changeset.apply_changes(changeset_or_data)
+          %{__meta__: _} -> changeset_or_data
+        end
+        Enum.each(fields, &(delete_attachment(scope, &1)))
+        changeset_or_data
+      end
+
+      defp delete_attachment(scope, field) do
+        type = __MODULE__.__schema__(:type, field)
+        definition = type.definition()
+        value = Map.get(scope, field)
+        if value do
+          {value, scope}
+          |> definition.urls()
+          |> Enum.each(fn {_size, path} -> definition.delete({path, scope}) end)
+        end
+      end
     end
   end
 

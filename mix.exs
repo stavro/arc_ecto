@@ -7,6 +7,7 @@ defmodule Arc.Ecto.Mixfile do
     [app: :arc_ecto,
      version: @version,
      elixir: "~> 1.0",
+     elixirc_paths: elixirc_paths(Mix.env),
      deps: deps(),
 
     # Hex
@@ -21,6 +22,10 @@ defmodule Arc.Ecto.Mixfile do
     [applications: [:logger, :arc]]
   end
 
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_),     do: ["lib"]
+  
   defp description do
     """
     An integration with Arc and Ecto.
