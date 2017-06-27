@@ -2,10 +2,7 @@ defmodule ArcTest.Ecto.Schema do
   use ExUnit.Case, async: false
   import Mock
 
-  defmodule DummyDefinition do
-    use Arc.Definition
-    use Arc.Ecto.Definition
-  end
+  alias ArcTest.Ecto.DummyDefinition
 
   defmodule TestUser do
     use Ecto.Schema
@@ -36,15 +33,12 @@ defmodule ArcTest.Ecto.Schema do
       |> cast(params, ~w(first_name)a)
       |> cast_attachments(params, ~w(avatar)a)
     end
-  end
 
-  setup do
-    defmodule DummyDefinition do
-      use Arc.Definition
-      use Arc.Ecto.Definition
+    def delete_changeset(user, params) do
+      user
+      |> changeset(params)
+      |> delete_attachments(~w(avatar)a)
     end
-
-    :ok
   end
 
   def build_upload(path) do
@@ -70,7 +64,7 @@ defmodule ArcTest.Ecto.Schema do
     cs = TestUser.changeset(%TestUser{}, %{"avatar" => upload})
     assert called DummyDefinition.store({upload, %TestUser{}})
     assert cs.valid? == false
-    assert cs.errors == [avatar: {"is invalid", [type: ArcTest.Ecto.Schema.DummyDefinition.Type]}]
+    assert cs.errors == [avatar: {"is invalid", [type: DummyDefinition.Type]}]
   end
 
   test_with_mock "converts changeset into schema", DummyDefinition, [store: fn({%{__struct__: Plug.Upload, path: "/path/to/my/file.png", file_name: "file.png"}, %TestUser{}}) -> {:error, :invalid_file} end] do
@@ -100,5 +94,13 @@ defmodule ArcTest.Ecto.Schema do
   test_with_mock "allow_paths => true", DummyDefinition, [store: fn({"/path/to/my/file.png", %TestUser{}}) -> {:ok, "file.png"} end] do
     changeset = TestUser.path_changeset(%TestUser{}, %{"avatar" => "/path/to/my/file.png"})
     assert called DummyDefinition.store({"/path/to/my/file.png", %TestUser{}})
+  end
+
+  test_with_mock "deletes attachments", DummyDefinition, [store: fn({%{__struct__: Plug.Upload, path: "/path/to/my/file.png", file_name: "file.png"}, %TestUser{}}) -> {:ok, "file.png"} end,
+                                                          urls: fn({%{file_name: "file.png"}, %TestUser{}}) -> %{original: "file.png"} end,
+                                                          delete: fn({"file.png", %TestUser{}}) -> :ok end] do
+    upload = build_upload("/path/to/my/file.png")
+    TestUser.delete_changeset(%TestUser{}, %{"avatar" => upload})
+    assert called DummyDefinition.delete({"file.png", :_})
   end
 end

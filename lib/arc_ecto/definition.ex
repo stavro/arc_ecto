@@ -6,6 +6,7 @@ defmodule Arc.Ecto.Definition do
       defmodule Module.concat(unquote(definition), "Type") do
         @behaviour Ecto.Type
         def type, do: Arc.Ecto.Type.type
+        def definition, do: unquote(definition)
         def cast(value), do: Arc.Ecto.Type.cast(unquote(definition), value)
         def load(value), do: Arc.Ecto.Type.load(unquote(definition), value)
         def dump(value), do: Arc.Ecto.Type.dump(unquote(definition), value)
@@ -30,7 +31,7 @@ defmodule Arc.Ecto.Definition do
       end
 
       def url(f, v, options), do: super(f, v, options)
-      
+
       def delete({%{file_name: file_name, updated_at: _updated_at}, scope}), do: super({file_name, scope})
 
       def delete(args), do: super(args)

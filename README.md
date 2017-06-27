@@ -137,6 +137,32 @@ Both public and signed urls will include the timestamp for cache busting, and ar
   MyApp.Avatar.url({user.avatar, user}, :thumb, signed: true)
 ```
 
+### Delete attached file from storage
+
+Attachments can be deleted using `delete_attachments/2` before calling `Repo.delete/1`.
+
+```elixir
+defmodule MyApp.User do
+  # ...
+
+  def delete_changeset(data) do
+    data
+    |> changeset(%{})
+    |> delete_attachments(@attachments)
+  end
+end
+```
+
+Then, to delete, instead of calling `Repo.delete` from element, do it from deletion
+changeset (like when using `Ecto.Changeset.prepare_changes/2`):
+
+```elixir
+  user
+  |> MyApp.User.delete_changeset()
+  |> MyApp.Repo.delete()
+
+```
+
 ## License
 
 Copyright 2015 Sean Stavropoulos
