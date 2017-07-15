@@ -20,13 +20,13 @@ defmodule ArcTest.Ecto.Definition do
   end
 
   test "url appends timestamp to url with no query parameters" do
-    updated_at = Ecto.DateTime.from_erl({{2015, 1, 1}, {1, 1, 1}})
+    updated_at = NaiveDateTime.from_erl!({{2015, 1, 1}, {1, 1, 1}})
     url = DummyDefinition.url({%{file_name: "test.png", updated_at: updated_at}, :scope}, :original, [])
     assert url == "fallback?v=63587293261"
   end
 
   test "url appends timestamp to url with query parameters" do
-    updated_at = Ecto.DateTime.from_erl({{2015, 1, 1}, {1, 1, 1}})
+    updated_at = NaiveDateTime.from_erl!({{2015, 1, 1}, {1, 1, 1}})
     url = DummyDefinition.url({%{file_name: "test.png", updated_at: updated_at}, :scope}, :signed, [])
     assert url == "fallback?a=1&b=2&v=63587293261"
   end
