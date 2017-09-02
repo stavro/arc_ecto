@@ -58,7 +58,7 @@ defmodule ArcTest.Ecto.Schema do
     assert cs.errors   == [avatar: {"can't be blank", []}]
   end
 
-  test_with_mock "cascades storage success into a valid change", DummyDefinition, [store: fn({%{__struct__: Plug.Upload, path: "/path/to/my/file.png", file_name: "file.png"}, %TestUser{}}) -> {:ok, "file.png"} end] do
+  test_with_mock "cascades storage success into a valid change", DummyDefinition, [store: fn({%{__struct__: Plug.Upload, path: "/path/to/my/file.png", file_name: "file.png"}, %TestUser{}}) -> {:ok, "file.png", "file.png"} end] do
     upload = build_upload("/path/to/my/file.png")
     cs = TestUser.changeset(%TestUser{}, %{"avatar" => upload})
     assert cs.valid?
