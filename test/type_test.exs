@@ -25,6 +25,18 @@ defmodule ArcTest.Ecto.Type do
     assert value == %{file_name: "image.php", updated_at: timestamp}
   end
 
+  test "loads filenames with an output file embedded" do
+    timestamp = Ecto.DateTime.cast!({{1970, 1, 1}, {0, 0, 0}})
+    {:ok, value} = DummyDefinition.Type.load("image.php?62167219200&files=image.png")
+    assert value == %{file_name: "image.php", updated_at: timestamp, saved_versions: ["image.png"]}
+  end
+
+  test "loads filenames with multiple output files embedded" do
+    timestamp = Ecto.DateTime.cast!({{1970, 1, 1}, {0, 0, 0}})
+    {:ok, value} = DummyDefinition.Type.load("image.php?62167219200&files=image.png::image2.png::image3.png")
+    assert value == %{file_name: "image.php", updated_at: timestamp, saved_versions: ["image.png", "image2.png", "image3.png"]}
+  end
+
   test "loads pathological filenames without timestamps" do
     {:ok, value} = DummyDefinition.Type.load("image^!?*!=@$.php")
     assert value == %{file_name: "image^!?*!=@$.php", updated_at: nil}
