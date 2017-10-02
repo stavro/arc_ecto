@@ -10,7 +10,10 @@ defmodule Arc.Ecto.Type do
   def cast(definition, args) do
     case definition.store(args) do
       {:ok, file} -> {:ok, %{file_name: file, updated_at: Ecto.DateTime.utc}}
-      _ -> :error
+      error -> 
+      require Logger
+      Logger.error(inspect(error))
+      :error
     end
   end
 
