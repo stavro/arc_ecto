@@ -137,6 +137,52 @@ Both public and signed urls will include the timestamp for cache busting, and ar
   MyApp.Avatar.url({user.avatar, user}, :thumb, signed: true)
 ```
 
+### Example of multiple uploads
+
+Multiple uploads through embedded schema.
+
+```elixir
+
+# Embeded schema
+defmodule Photo do
+  use Ecto.Schema
+  use Arc.Ecto.Schema
+
+  import Ecto.Changeset
+
+  @primary_key false
+
+  embedded_schema do
+    field :fileinfo, Myapp.Uploader.Type
+  end
+
+  def changeset(photo, params \\ %{}) do
+    photo
+    |> cast(params, [])
+    |> cast_attachments(params, [:fileinfo], allow_paths: true)
+  end
+end
+
+# Database schema
+defmodule Post do
+  embeds_many :photos, Photo, on_replace: :delete
+end
+
+# Controller
+def update(conn, params) do
+  post = Repo.get! Post, params["id"]
+
+  photos = for f <- params["uploads"] do
+    %Photo{}
+    |> Photo.changeset(%{fileinfo: f})
+  end
+
+  Post.changeset(post)
+    |> Ecto.Changeset.put_embed(:photos, photos)
+    |> Repo.update
+end
+```
+
 ## License
 
 Copyright 2015 Sean Stavropoulos
