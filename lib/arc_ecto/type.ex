@@ -7,6 +7,9 @@ defmodule Arc.Ecto.Type do
   def cast(_definition, %{"file_name" => file, "updated_at" => updated_at}) do
     {:ok, %{file_name: file, updated_at: updated_at}}
   end
+  def cast(definition, %{file_name: file, updated_at: updated_at}) do
+    cast(definition, %{"file_name" => file, "updated_at" => updated_at})
+  end
   def cast(definition, args) do
     case definition.store(args) do
       {:ok, file} -> {:ok, %{file_name: file, updated_at: Ecto.DateTime.utc}}
@@ -43,5 +46,9 @@ defmodule Arc.Ecto.Type do
   def dump(_definition, %{file_name: file_name, updated_at: updated_at}) do
     gsec = :calendar.datetime_to_gregorian_seconds(Ecto.DateTime.to_erl(updated_at))
     {:ok, "#{file_name}?#{gsec}"}
+  end
+
+  def dump(definition, %{"file_name" => file_name, "updated_at" => updated_at}) do
+    dump(definition, %{file_name: file_name, updated_at: updated_at})
   end
 end
