@@ -9,7 +9,7 @@ defmodule Arc.Ecto.Type do
   end
   def cast(definition, args) do
     case definition.store(args) do
-      {:ok, file} -> {:ok, %{file_name: file, updated_at: Ecto.DateTime.utc}}
+      {:ok, file} -> {:ok, %{file_name: file, updated_at: DateTime.utc_now() |> DateTime.to_naive()}}
       _ -> :error
     end
   end
@@ -28,7 +28,7 @@ defmodule Arc.Ecto.Type do
         gsec
         |> String.to_integer()
         |> :calendar.gregorian_seconds_to_datetime()
-        |> Ecto.DateTime.from_erl()
+        |> NaiveDateTime.from_erl!()
       _ ->
         nil
     end
@@ -41,7 +41,7 @@ defmodule Arc.Ecto.Type do
   end
 
   def dump(_definition, %{file_name: file_name, updated_at: updated_at}) do
-    gsec = :calendar.datetime_to_gregorian_seconds(Ecto.DateTime.to_erl(updated_at))
+    gsec = :calendar.datetime_to_gregorian_seconds(NaiveDateTime.to_erl(updated_at))
     {:ok, "#{file_name}?#{gsec}"}
   end
 end

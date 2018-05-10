@@ -55,7 +55,7 @@ defmodule ArcTest.Ecto.Schema do
     cs = TestUser.changeset(%TestUser{})
     assert cs.valid?   == false
     assert cs.changes  == %{}
-    assert cs.errors   == [avatar: {"can't be blank", []}]
+    assert cs.errors   == [avatar: {"can't be blank", [validation: :required]}]
   end
 
   test_with_mock "cascades storage success into a valid change", DummyDefinition, [store: fn({%{__struct__: Plug.Upload, path: "/path/to/my/file.png", file_name: "file.png"}, %TestUser{}}) -> {:ok, "file.png"} end] do
@@ -70,7 +70,7 @@ defmodule ArcTest.Ecto.Schema do
     cs = TestUser.changeset(%TestUser{}, %{"avatar" => upload})
     assert called DummyDefinition.store({upload, %TestUser{}})
     assert cs.valid? == false
-    assert cs.errors == [avatar: {"is invalid", [type: ArcTest.Ecto.Schema.DummyDefinition.Type]}]
+    assert cs.errors == [avatar: {"is invalid", [type: ArcTest.Ecto.Schema.DummyDefinition.Type, validation: :cast]}]
   end
 
   test_with_mock "converts changeset into schema", DummyDefinition, [store: fn({%{__struct__: Plug.Upload, path: "/path/to/my/file.png", file_name: "file.png"}, %TestUser{}}) -> {:error, :invalid_file} end] do
