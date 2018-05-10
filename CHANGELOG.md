@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.8.0 (2018-05-10)
+* (Enhancement) Use `NaiveDateTime` instead of `Ecto.DateTime`.
+* (Dependency Update) Require `ecto ~> 2.1`
+
 ## v0.7.0 (2017-03-10)
 * (Enhancement) Add `delete` override to the ArcEcto module.
 * (Dependency Update) Require `arc ~> 0.8.0`
