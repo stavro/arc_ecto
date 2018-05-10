@@ -1,4 +1,7 @@
 defmodule Arc.Ecto.Type do
+  @moduledoc false
+  require Logger
+
   def type, do: :string
 
   @filename_with_timestamp ~r{^(.*)\?(\d+)$}
@@ -7,10 +10,13 @@ defmodule Arc.Ecto.Type do
   def cast(_definition, %{"file_name" => file, "updated_at" => updated_at}) do
     {:ok, %{file_name: file, updated_at: updated_at}}
   end
+
   def cast(definition, args) do
     case definition.store(args) do
-      {:ok, file} -> {:ok, %{file_name: file, updated_at: DateTime.utc_now() |> DateTime.to_naive()}}
-      _ -> :error
+      {:ok, file} -> {:ok, %{file_name: file, updated_at: NaiveDateTime.utc_now}}
+      error ->
+        Logger.error(inspect(error))
+        :error
     end
   end
 
@@ -26,9 +32,10 @@ defmodule Arc.Ecto.Type do
     updated_at = case gsec do
       gsec when is_binary(gsec) ->
         gsec
-        |> String.to_integer()
-        |> :calendar.gregorian_seconds_to_datetime()
-        |> NaiveDateTime.from_erl!()
+        |> String.to_integer
+        |> :calendar.gregorian_seconds_to_datetime
+        |> NaiveDateTime.from_erl!
+
       _ ->
         nil
     end

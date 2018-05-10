@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.8.0 (2017-07-15)
+## v0.8.0 (2018-05-10)
 * (Enhancement) Use `NaiveDateTime` instead of `Ecto.DateTime`.
 * (Dependency Update) Require `ecto ~> 2.1`
 
