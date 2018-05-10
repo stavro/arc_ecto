@@ -5,8 +5,11 @@ defmodule Arc.Ecto.Type do
   def type, do: :string
 
   @filename_with_timestamp ~r{^(.*)\?(\d+)$}
-
-  # Support embeds_one/embeds_many
+  
+  def cast(definition, %{file_name: file, updated_at: updated_at}) do
+    cast(definition, %{"file_name" => file, "updated_at" => updated_at})
+  end
+  
   def cast(_definition, %{"file_name" => file, "updated_at" => updated_at}) do
     {:ok, %{file_name: file, updated_at: updated_at}}
   end
@@ -50,5 +53,9 @@ defmodule Arc.Ecto.Type do
   def dump(_definition, %{file_name: file_name, updated_at: updated_at}) do
     gsec = :calendar.datetime_to_gregorian_seconds(NaiveDateTime.to_erl(updated_at))
     {:ok, "#{file_name}?#{gsec}"}
+  end
+
+  def dump(definition, %{"file_name" => file_name, "updated_at" => updated_at}) do
+    dump(definition, %{file_name: file_name, updated_at: updated_at})
   end
 end
