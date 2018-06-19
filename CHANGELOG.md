@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.10.0 (2018-06-19)
+* (Dependency Update) Require `arc ~> 0.10.0`
+
 ## v0.9.0 (2018-06-19)
 * (Dependency Update) Require `arc ~> 0.9.0`
 
