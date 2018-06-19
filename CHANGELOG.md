@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.9.0 (2018-06-19)
+* (Dependency Update) Require `arc ~> 0.9.0`
+
 ## v0.8.0 (2018-05-10)
 * (Enhancement) Use `NaiveDateTime` instead of `Ecto.DateTime`.
 * (Dependency Update) Require `ecto ~> 2.1`
