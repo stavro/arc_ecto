@@ -50,7 +50,7 @@ defmodule Arc.Ecto.Schema do
           |> Enum.into(%{})
       end
 
-      cast(changeset_or_data, arc_params, allowed)
+      Ecto.Changeset.cast(changeset_or_data, arc_params, allowed)
     end
   end
 
