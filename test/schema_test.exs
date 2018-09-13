@@ -84,7 +84,7 @@ defmodule ArcTest.Ecto.Schema do
   end
 
   test_with_mock "allow_paths => true", DummyDefinition, [store: fn({"/path/to/my/file.png", %TestUser{}}) -> {:ok, "file.png"} end] do
-    changeset = TestUser.path_changeset(%TestUser{}, %{"avatar" => "/path/to/my/file.png"})
+    TestUser.path_changeset(%TestUser{}, %{"avatar" => "/path/to/my/file.png"})
     assert called DummyDefinition.store({"/path/to/my/file.png", %TestUser{}})
   end
 end
