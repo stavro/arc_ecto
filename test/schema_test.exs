@@ -2,11 +2,6 @@ defmodule ArcTest.Ecto.Schema do
   use ExUnit.Case, async: false
   import Mock
 
-  defmodule DummyDefinition do
-    use Arc.Definition
-    use Arc.Ecto.Definition
-  end
-
   defmodule TestUser do
     use Ecto.Schema
     import Ecto.Changeset
@@ -38,15 +33,6 @@ defmodule ArcTest.Ecto.Schema do
     end
   end
 
-  setup do
-    defmodule DummyDefinition do
-      use Arc.Definition
-      use Arc.Ecto.Definition
-    end
-
-    :ok
-  end
-
   def build_upload(path) do
     %{__struct__: Plug.Upload, path: path, filename: Path.basename(path)}
   end
@@ -70,7 +56,7 @@ defmodule ArcTest.Ecto.Schema do
     cs = TestUser.changeset(%TestUser{}, %{"avatar" => upload})
     assert called DummyDefinition.store({upload, %TestUser{}})
     assert cs.valid? == false
-    assert cs.errors == [avatar: {"is invalid", [type: ArcTest.Ecto.Schema.DummyDefinition.Type, validation: :cast]}]
+    assert cs.errors == [avatar: {"is invalid", [type: DummyDefinition.Type, validation: :cast]}]
   end
 
   test_with_mock "converts changeset into schema", DummyDefinition, [store: fn({%{__struct__: Plug.Upload, path: "/path/to/my/file.png", filename: "file.png"}, %TestUser{}}) -> {:error, :invalid_file} end] do

@@ -1,11 +1,6 @@
 defmodule ArcTest.Ecto.Type do
   use ExUnit.Case, async: false
 
-  defmodule DummyDefinition do
-    use Arc.Definition
-    use Arc.Ecto.Definition
-  end
-
   test "dumps filenames with timestamp" do
     timestamp = NaiveDateTime.from_erl!({{1970, 1, 1}, {0, 0, 0}})
     {:ok, value} =
