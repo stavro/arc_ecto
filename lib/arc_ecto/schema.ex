@@ -17,11 +17,11 @@ defmodule Arc.Ecto.Schema do
         %{__meta__: _} -> changeset_or_data
       end
 
-      # Cast supports both atom and string keys, ensure we're matching on both.
+      # Cast supports only atom  keys since {:ecto, "~> 3.0"}
       allowed = Enum.map(allowed, fn key ->
         case key do
-          key when is_binary(key) -> key
-          key when is_atom(key) -> Atom.to_string(key)
+          key when is_atom(key) -> key
+          key when is_binary(key) -> String.to_atom(key)
         end
       end)
 
@@ -30,7 +30,7 @@ defmodule Arc.Ecto.Schema do
           :invalid
         %{} ->
           params
-          |> Arc.Ecto.Schema.convert_params_to_binary
+          |> Arc.Ecto.Schema.convert_params_to_atom
           |> Map.take(allowed)
           |> Enum.reduce([], fn
             # Don't wrap nil casts in the scope object
@@ -54,17 +54,17 @@ defmodule Arc.Ecto.Schema do
     end
   end
 
-  def convert_params_to_binary(params) do
+  def convert_params_to_atom(params) do
     Enum.reduce(params, nil, fn
-      {key, _value}, nil when is_binary(key) ->
+      {key, _value}, nil when is_atom(key) ->
         nil
 
-      {key, _value}, _ when is_binary(key) ->
+      {key, _value}, _ when is_atom(key) ->
         raise ArgumentError, "expected params to be a map with atoms or string keys, " <>
                              "got a map with mixed keys: #{inspect params}"
 
-      {key, value}, acc when is_atom(key) ->
-        Map.put(acc || %{}, Atom.to_string(key), value)
+      {key, value}, acc when is_binary(key) ->
+        Map.put(acc || %{}, String.to_atom(key), value)
 
     end) || params
   end
