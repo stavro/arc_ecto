@@ -5,18 +5,18 @@ defmodule Arc.Ecto.Type do
   def type, do: :string
 
   @filename_with_timestamp ~r{^(.*)\?(\d+)$}
-  
+
   def cast(definition, %{file_name: file, updated_at: updated_at}) do
     cast(definition, %{"file_name" => file, "updated_at" => updated_at})
   end
-  
+
   def cast(_definition, %{"file_name" => file, "updated_at" => updated_at}) do
     {:ok, %{file_name: file, updated_at: updated_at}}
   end
 
   def cast(definition, args) do
     case definition.store(args) do
-      {:ok, file} -> {:ok, %{file_name: file, updated_at: NaiveDateTime.utc_now}}
+      {:ok, file} -> {:ok, %{file_name: file, updated_at: NaiveDateTime.truncate(NaiveDateTime.utc_now, :second)}}
       error ->
         Logger.error(inspect(error))
         :error
