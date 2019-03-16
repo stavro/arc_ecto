@@ -18,9 +18,12 @@ defmodule Arc.Ecto.Definition do
           url
         else
           case updated_at do
-            %NaiveDateTime{} -> version_url(updated_at, url)
+            %NaiveDateTime{} ->
+              version_url(updated_at, url)
+
             string when is_bitstring(updated_at) ->
               version_url(NaiveDateTime.from_iso8601!(string), url)
+
             _ ->
               url
           end
