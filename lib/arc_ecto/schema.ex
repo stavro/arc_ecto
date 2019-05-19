@@ -41,10 +41,10 @@ defmodule Arc.Ecto.Schema do
 
             # If casting a binary (path), ensure we've explicitly allowed paths
             {field, path}, fields when is_binary(path) ->
-              if Keyword.get(options, :allow_paths, false) do
-                [{field, {path, scope}} | fields]
-              else
-                fields
+              cond do
+                Keyword.get(options, :allow_urls, false) and Regex.match?( ~r/^https?:\/\// , path) -> [{field, {path, scope}} | fields]
+                Keyword.get(options, :allow_paths, false) -> [{field, {path, scope}} | fields]
+                true -> fields
               end
           end)
           |> Enum.into(%{})

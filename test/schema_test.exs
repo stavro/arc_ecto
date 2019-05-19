@@ -27,6 +27,13 @@ defmodule ArcTest.Ecto.Schema do
       |> validate_required(:avatar)
     end
 
+    def url_changeset(user, params \\ :invalid) do
+      user
+      |> cast(params, ~w(first_name)a)
+      |> cast_attachments(params, ~w(avatar)a, allow_urls: true)
+      |> validate_required(:avatar)
+    end
+
     def changeset2(user, params \\ :invalid) do
       user
       |> cast(params, ~w(first_name)a)
@@ -95,5 +102,15 @@ defmodule ArcTest.Ecto.Schema do
   test_with_mock "allow_paths => true", DummyDefinition, [store: fn({"/path/to/my/file.png", %TestUser{}}) -> {:ok, "file.png"} end] do
     _changeset = TestUser.path_changeset(%TestUser{}, %{"avatar" => "/path/to/my/file.png"})
     assert called DummyDefinition.store({"/path/to/my/file.png", %TestUser{}})
+  end
+
+  test_with_mock "allow_urls => true", DummyDefinition, [store: fn({"http://external.url/file.png", %TestUser{}}) -> {:ok, "file.png"} end] do
+    changeset = TestUser.url_changeset(%TestUser{}, %{"avatar" => "http://external.url/file.png"})
+    assert called DummyDefinition.store({"http://external.url/file.png", %TestUser{}})
+  end
+
+  test_with_mock "allow_urls => true with an invalid URL", DummyDefinition, [store: fn({"/path/to/my/file.png", %TestUser{}}) -> {:ok, "file.png"} end] do
+    changeset = TestUser.url_changeset(%TestUser{}, %{"avatar" => "/path/to/my/file.png"})
+    assert not called DummyDefinition.store({"/path/to/my/file.png", %TestUser{}})
   end
 end
