@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.11.2 (2019-05-18)
+* (Dependency Relax) Require `ecto >= 2.1.0`
+* (Enhancement) Add `allow_urls` as an an alternative to `allow_paths` for fetching remote files
+* (Bugfix) updated_at timestamps now truncate to the second
+* (Bugfix) Fix Dialyzer warning
+* (Bugfix) Add missing Dialyzer type
+
 ## v0.11.1 (2018-11-18)
 * (Dependency Update) Require `ecto ~> 2.1 or ~> 3.0`
 
