@@ -17,11 +17,13 @@ defmodule Arc.Ecto.Definition do
         if options[:signed] do
           url
         else
-          case updated_at do
-            %NaiveDateTime{} ->
+          case {url, updated_at} do
+            {nil, _} -> nil
+
+            {_, %NaiveDateTime{}} ->
               version_url(updated_at, url)
 
-            string when is_bitstring(updated_at) ->
+            {_, string} when is_bitstring(updated_at) ->
               version_url(NaiveDateTime.from_iso8601!(string), url)
 
             _ ->
@@ -31,7 +33,7 @@ defmodule Arc.Ecto.Definition do
       end
 
       def url(f, v, options), do: super(f, v, options)
-      
+
       def delete({%{file_name: file_name, updated_at: _updated_at}, scope}), do: super({file_name, scope})
 
       def delete(args), do: super(args)
