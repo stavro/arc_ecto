@@ -25,4 +25,10 @@ defmodule ArcTest.Ecto.Definition do
     url = DummyDefinitionTwo.url({%{file_name: "test.png", updated_at: nil}, :scope}, :original, [])
     assert url == "fallback"
   end
+
+  test "url is nil if version is skipped" do
+    updated_at = NaiveDateTime.from_erl!({{2015, 1, 1}, {1, 1, 1}})
+    url = DummyDefinitionTwo.url({%{file_name: "test.png", updated_at: updated_at}, :scope}, :skipped, [])
+    assert is_nil(url)
+  end
 end
