@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.11.3 (2019-12-10)
+* (Enhancement) Fix warnings in Ecto 3.2 for custom types
+
 ## v0.11.2 (2019-05-18)
 * (Dependency Relax) Require `ecto >= 2.1.0`
 * (Enhancement) Add `allow_urls` as an an alternative to `allow_paths` for fetching remote files
