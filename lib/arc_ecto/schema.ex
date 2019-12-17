@@ -36,6 +36,11 @@ defmodule Arc.Ecto.Schema do
             # Allow casting Plug.Uploads
             {field, upload = %{__struct__: Plug.Upload}}, fields -> [{field, {upload, scope}} | fields]
 
+            # Allow casting binary data structs
+            {field, upload = %{filename: filename, binary: binary}}, fields
+              when is_binary(filename) and is_binary(binary) ->
+              [{field, {upload, scope}} | fields]
+
             # If casting a binary (path), ensure we've explicitly allowed paths
             {field, path}, fields when is_binary(path) ->
               cond do
