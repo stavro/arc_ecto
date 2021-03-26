@@ -10,6 +10,8 @@ defmodule Arc.Ecto.Definition do
           @behaviour Ecto.Type
         end
 
+        @type t() :: Arc.Ecto.t()
+
         def type, do: Arc.Ecto.Type.type()
         def cast(value), do: Arc.Ecto.Type.cast(unquote(definition), value)
         def load(value), do: Arc.Ecto.Type.load(unquote(definition), value)
