@@ -1,10 +1,14 @@
-Arc.Ecto
-========
+# Arc.Ecto
 
-Arc.Ecto provides an integration with [Arc](https://github.com/stavro/arc) and Ecto.
+[![Hex Version](https://img.shields.io/hexpm/v/arc_ecto.svg)](https://hex.pm/packages/arc_ecto)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/arc_ecto/)
+[![Total Download](https://img.shields.io/hexpm/dt/arc_ecto.svg)](https://hex.pm/packages/arc_ecto)
+[![License](https://img.shields.io/hexpm/l/arc_ecto.svg)](https://github.com/stavro/arc_ecto/blob/master/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/stavro/arc_ecto.svg)](https://github.com/stavro/arc_ecto/commits/master)
 
-Installation
-============
+`Arc.Ecto` provides an integration with [Arc](https://github.com/stavro/arc) and `Ecto`.
+
+## Installation
 
 Add the latest stable release to your `mix.exs` file:
 
@@ -18,8 +22,7 @@ end
 
 Then run `mix deps.get` in your shell to fetch the dependencies.
 
-Usage
-=====
+## Usage
 
 ### Add Arc.Ecto.Definition
 
@@ -133,18 +136,16 @@ Both public and signed urls will include the timestamp for cache busting, and ar
   MyApp.Avatar.url({user.avatar, user}, :thumb, signed: true)
 ```
 
-## License
+## Copyright and License
 
 Copyright 2015 Sean Stavropoulos
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
