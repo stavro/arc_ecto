@@ -19,7 +19,7 @@ defmodule Arc.Ecto.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [extra_applications: [:logger, :arc, :ecto, :eex]]
+    [extra_applications: [:logger, :waffle, :ecto, :eex]]
   end
 
   # Specifies which paths to compile per environment.
@@ -41,10 +41,10 @@ defmodule Arc.Ecto.Mixfile do
 
   defp deps do
     [
-      {:arc,  "~> 0.11.0"},
-      {:ecto, "~> 3.0"},
-      {:mock, "~> 0.3.3", only: :test},
-      {:ex_doc, "~> 0.18", only: :dev}
+      {:ecto, "~> 3.9.0"},
+      {:ex_doc, "~> 0.18", only: :dev},
+      {:mock, "~> 0.3", only: :test},
+      {:waffle,  "~> 1.1.0", only: :test}
     ]
   end
 end

@@ -1,4 +1,4 @@
 defmodule DummyDefinition do
-  use Arc.Definition
+  use Waffle.Definition
   use Arc.Ecto.Definition
 end
